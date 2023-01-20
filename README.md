@@ -5,7 +5,7 @@ A Python client for the OpenClimate API
 # Installation
 This initial release is installable from GitHub using the following command:
 ```
-pip install -e git+https://github.com/Open-Earth-Foundation/OpenClimate-pyclient.git#egg=oc_pyclient
+pip install git+https://github.com/Open-Earth-Foundation/OpenClimate-pyclient.git#egg=oc_pyclient
 ```
 We will soon make the package available on `PyPi` and `conda`.
 
