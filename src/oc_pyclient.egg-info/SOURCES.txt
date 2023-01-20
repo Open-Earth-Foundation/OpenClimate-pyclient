@@ -1,0 +1,13 @@
+LICENSE
+README.md
+pyproject.toml
+setup.cfg
+setup.py
+src/oc_pyclient/__init__.py
+src/oc_pyclient/oc_pyclient.py
+src/oc_pyclient.egg-info/PKG-INFO
+src/oc_pyclient.egg-info/SOURCES.txt
+src/oc_pyclient.egg-info/dependency_links.txt
+src/oc_pyclient.egg-info/not-zip-safe
+src/oc_pyclient.egg-info/requires.txt
+src/oc_pyclient.egg-info/top_level.txt
