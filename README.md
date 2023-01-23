@@ -2,7 +2,7 @@
 
 A Python client for the OpenClimate API
 
-Try it out in [Binder](https://hub.gke2.mybinder.org/user/open-earth-foun-limate-pyclient-zdrvmncu/lab/tree/notebooks)!
+Try it out in [Binder](https://mybinder.org/v2/gh/Open-Earth-Foundation/OpenClimate-pyclient/HEAD?urlpath=lab/tree/notebooks/)!
 
 # Installation
 This initial release is installable from GitHub using the following command:
