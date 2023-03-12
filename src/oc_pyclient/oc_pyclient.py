@@ -1,18 +1,17 @@
+from dataclasses import dataclass
 import itertools
 import json
 import pandas as pd
 import requests
 
-
+@dataclass
 class Client:
-    """OpenClimate API Python Client"""
-
-    def __init__(self, dev: bool = False, version: str = None, *args, **kwargs):
-        """initialization method"""
-        self.dev = dev
-        self.version = '/api/v1' if version is None else version
-        self.base_url = "https://dev.openclimate.network" if dev else "https://openclimate.network"
-        self.server = f"{self.base_url}{self.version}" if dev else f"{self.base_url}{self.version}"
+    """OpenClimate API Python Client
+    base_url = "https://openclimate.openearth.dev" or "https://openclimate.network"
+    """
+    version: str = '/api/v1'
+    base_url: str = "https://openclimate.network"
+    server: str = f"{base_url}{version}"
 
     def __repr__(self):
         return f"OpenClimate({self.server})"
@@ -27,7 +26,7 @@ class Client:
             actor_id (str): code for actor your want to retrieve
 
         Returns:
-            DataFrame: data for each emissions dataset 
+            DataFrame: data for each emissions dataset
         """
         endpoint = f"/actor/{actor_id}"
         url = f"{self.server}{endpoint}"
@@ -83,7 +82,7 @@ class Client:
             actor_id (str): code for actor your want to retrieve
 
         Returns:
-            DataFrame: data for each emissions dataset 
+            DataFrame: data for each emissions dataset
         """
         try:
             data_list = self._actor_overview(actor_id=actor_id)
@@ -101,7 +100,7 @@ class Client:
             actor_id (str): code for actor your want to retrieve
 
         Returns:
-            DataFrame: data for each emissions dataset 
+            DataFrame: data for each emissions dataset
         """
         try:
             data_list = self._actor_overview(actor_id=actor_id)
@@ -123,7 +122,7 @@ class Client:
             actor_id (str): code for actor your want to retrieve
 
         Returns:
-            DataFrame: data for each emissions dataset 
+            DataFrame: data for each emissions dataset
         """
         try:
             data_list = self._actor_overview(actor_id=actor_id)
@@ -142,7 +141,7 @@ class Client:
             actor_id (str): code for actor your want to retrieve
 
         Returns:
-            DataFrame: data for each emissions dataset 
+            DataFrame: data for each emissions dataset
         """
         try:
             data_list = self._actor_overview(actor_id=actor_id)
@@ -162,7 +161,7 @@ class Client:
             part_type (str, optional): administrative level
 
         Returns:
-            DataFrame: data for each emissions dataset 
+            DataFrame: data for each emissions dataset
         """
         endpoint = f"/actor/{actor_id}/parts"
         if part_type:
