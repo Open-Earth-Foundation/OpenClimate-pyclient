@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from functools import lru_cache
 import itertools
 import json
 import pandas as pd
@@ -19,6 +20,7 @@ class Client:
     def __str__(self):
         return f"OpenClimate({self.server})"
 
+    @lru_cache(maxsize=10)
     def _actor_overview(self, actor_id: str = None, *args, **kwargs):
         """retreive actor emissions
 
@@ -153,6 +155,7 @@ class Client:
             df = pd.DataFrame(data).sort_values(by=['year'])
             return df
 
+    @lru_cache(maxsize=10)
     def parts(self, actor_id: str = None, part_type: str = None, *args, **kwargs):
         """retreive actor parts
 
@@ -189,6 +192,7 @@ class Client:
             df = pd.DataFrame(data_list).sort_values(by=['type', 'actor_id'])
             return df
 
+    @lru_cache(maxsize=10)
     def search(self,
                name: str = None,
                identifier: str = None,
