@@ -275,7 +275,7 @@ class Emissions(Base):
         except Exception:
             print(f"Something went wrong, check that {actor_id} is an actor")
         else:
-            df_list = [self._get_emissions(overview) for overview in overviews]
+            df_list = [self._get_emissions(overview) for overview in overviews if overview]
             df = pd.concat(df_list)
             if datasource_id:
                 return df.loc[df["datasource_id"] == datasource_id]
@@ -332,7 +332,7 @@ class Targets(Base):
         except Exception:
             print(f"Something went wrong, check that {actor_id} is an actor")
         else:
-            df_list = [self._get_target(overview) for overview in overviews]
+            df_list = [self._get_target(overview) for overview in overviews if overview]
             return pd.concat(df_list)
 
 
@@ -370,7 +370,7 @@ class Population(Base):
         except Exception:
             print(f"Something went wrong, check that {actor_id} is an actor")
         else:
-            df_list = [self._get_population(overview) for overview in overviews]
+            df_list = [self._get_population(overview) for overview in overviews if overview]
             return pd.concat(df_list)
 
 
@@ -406,7 +406,7 @@ class GDP(Base):
         except Exception:
             print(f"Something went wrong, check that {actor_id} is an actor")
         else:
-            df_list = [self._get_gdp(overview) for overview in overviews]
+            df_list = [self._get_gdp(overview) for overview in overviews if overview]
             return pd.concat(df_list)
 
 
