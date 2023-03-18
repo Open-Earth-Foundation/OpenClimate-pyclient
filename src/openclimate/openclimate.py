@@ -257,7 +257,9 @@ class Emissions(Base):
             for overview in overviews if overview
             for datasource, data in overview.get('emissions').items()
         ]
-        return pd.DataFrame(list_out)
+        if list_out:
+            return pd.DataFrame(list_out)
+        return None
 
     def emissions(self, actor_id: str = None, datasource_id=None, *args, **kwargs):
         """retreive actor emissions
