@@ -414,10 +414,24 @@ class GDP(Base):
 @dataclass
 class Client(Base):
     """OpenClimate API Python Client
-    base_url = "https://openclimate.openearth.dev" or "https://openclimate.network"
+
+    ###############################################
+    #                                             #
+    #      Run if using Jupyter or iPython        #
+    #                                             #
+    ###############################################
+    manually add the following lines of code
+    ```python
+    import nest_asyncio
+    nest_asyncio.apply()
+    ```
     """
 
-    def emissions(self, actor_id=None, datasource_id=None):
+    def emissions(
+            self,
+            actor_id: str=None,
+            datasource_id: str=None
+    ) -> pd.DataFrame:
         """retreive actor emissions
 
         Args:
@@ -429,7 +443,10 @@ class Client(Base):
         """
         return Emissions().emissions(actor_id=actor_id, datasource_id=datasource_id)
 
-    def emissions_datasets(self, actor_id=None):
+    def emissions_datasets(
+            self,
+            actor_id: str=None
+    ) -> pd.DataFrame:
         """retreive actor emissions datasets
 
         Args:
@@ -440,9 +457,11 @@ class Client(Base):
         """
         return Emissions().datasets(actor_id=actor_id)
 
-    def targets(self, actor_id=None):
+    def targets(
+            self,
+            actor_id: str=None
+    ) -> pd.DataFrame:
         """retreive actor targets
-
         Args:
             actor_id (str|List[str]): code for actor your want to retrieve
 
@@ -451,7 +470,10 @@ class Client(Base):
         """
         return Targets().targets(actor_id=actor_id)
 
-    def population(self, actor_id=None):
+    def population(
+            self,
+            actor_id: str=None
+    ) -> pd.DataFrame:
         """retreive actor population
 
         Args:
@@ -462,7 +484,10 @@ class Client(Base):
         """
         return Population().population(actor_id=actor_id)
 
-    def gdp(self, actor_id=None):
+    def gdp(
+            self,
+            actor_id: str =None
+    ) -> pd.DataFrame:
         """retreive actor GDP
 
         Args:
@@ -473,8 +498,16 @@ class Client(Base):
         """
         return GDP().gdp(actor_id=actor_id)
 
-    def parts(self, actor_id: str = None, part_type: str = None, *args, **kwargs):
+    def parts(
+            self,
+            actor_id: str = None,
+            part_type: str = None,
+            *args,
+            **kwargs
+        ) -> pd.DataFrame:
         """retreive actor parts
+
+        returns subnational, cities, companies, etc. within an actor_id
 
         Args:
             actor_id (str|List[str]): code for actor your want to retrieve
@@ -495,8 +528,8 @@ class Client(Base):
         namespace: str = None,
         *args,
         **kwargs,
-    ):
-        """search actors
+    ) -> pd.DataFrame:
+        """search actor names and identifiers
 
         Args:
             query (str): full search of identifiers and names that include the search parameter
@@ -526,7 +559,7 @@ class Client(Base):
         *args,
         **kwargs,
     ) -> pd.DataFrame:
-        """get country codes
+        """get country codes and filter using `like` regex phrases
 
         Args:
             like (str): phrase to search for in name (optional)
