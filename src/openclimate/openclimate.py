@@ -107,14 +107,11 @@ class ActorOverview(Base):
 
         url = f"{self.server}{endpoint}"
         headers = {"Accept": "application/json"}
-        response = requests.get(url, headers=headers)
-
-        try:
-            data_list = response.json()["data"]
-        except KeyError as err:
-            print(f"ActorIdError: actor_id of '{actor_id}' is not found")
-        except Exception:
-            print(f"Error: something went wrong")
+        response = requests.get(url, headers=headers).json()
+        data_list = response.get("data", None)
+        if data_list is None:
+            warnings.warn(f"{actor_id} is not in our database", category=SyntaxWarning)
+            return None
         else:
             df = pd.DataFrame(data_list).sort_values(by=["type", "actor_id"])
             return df
