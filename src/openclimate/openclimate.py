@@ -4,6 +4,7 @@ from functools import wraps
 import itertools
 import pandas as pd
 import requests
+import warnings
 
 
 def explode_dict_columns(df):
@@ -55,14 +56,12 @@ class ActorOverview(Base):
         endpoint = f"/actor/{actor_id}"
         url = f"{self.server}{endpoint}"
         headers = {"Accept": "application/json"}
-        response = requests.get(url, headers=headers)
-
-        try:
-            data_list = response.json()["data"]
-            return data_list
-        except KeyError as err:
-            print(f"ActorIdError: actor_id of '{actor_id}' is not found")
-            raise err
+        response = requests.get(url, headers=headers).json()
+        data_list = response.get("data", None)
+        if data_list is None:
+            warnings.warn(f"ActorIDError: {actor_id} was not found", category=SyntaxWarning)
+            return None
+        return data_list
 
     async def _overview_coros(self, actor_id: str = None):
         actor_list = [actor_id] if isinstance(actor_id, str) else actor_id
