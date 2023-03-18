@@ -525,16 +525,16 @@ class Client(Base):
         regex: bool = True,
         *args,
         **kwargs,
-    ):
-        """search actors
+    ) -> pd.DataFrame:
+        """get country codes
 
         Args:
-            like (str): phrase to search for in name
-            case_senstive (bool): case senstive search [default: False]
-            regex (bool): treat like phrase as a regular expression [default: True]
+            like (str): phrase to search for in name (optional)
+            case_senstive (bool): case senstive search [default: False] (optional)
+            regex (bool): use regex with like [default: True] (optional)
 
         Returns:
-            DataFrame: dataframe of search results
+            DataFrame: dataframe of country codes
         """
         return (
             ActorOverview()
