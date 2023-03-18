@@ -420,12 +420,22 @@ class Client(Base):
     #      Run if using Jupyter or iPython        #
     #                                             #
     ###############################################
-    manually add the following lines of code
+    either run
+    ```python
+    client = Client()
+    client.jupyter
+    ```
+
+    or manually add the following lines of code
     ```python
     import nest_asyncio
     nest_asyncio.apply()
     ```
     """
+    @property
+    def jupyter(self):
+        import nest_asyncio
+        nest_asyncio.apply()
 
     def emissions(
             self,
