@@ -244,21 +244,20 @@ class Emissions(Base):
         return df_out.reset_index(drop=True)
 
     def datasets(self, actor_id: str = None):
-        overview = ActorOverview().overview(actor_id=actor_id)
-        df = pd.DataFrame(overview)
-        datasets = list(
-            itertools.chain(*[list(dataset.keys()) for dataset in df["emissions"]])
-        )
-        out_list = []
-        for dataset in datasets:
-            out_dict = {
-                key: df["emissions"][0].get(dataset).get(key, None)
-                for key in ["datasource_id", "name", "publisher", "published", "URL"]
+        overviews = ActorOverview().overview(actor_id=actor_id)
+        list_out = [
+            {
+                'actor_id': overview.get('actor_id'),
+                'datasource_id': datasource,
+                'name': data.get('name'),
+                'publisher': data.get('publisher'),
+                'published': data.get('published'),
+                'URL': data.get('URL')
             }
-            out_list.append(out_dict)
-
-        df_out = pd.DataFrame(out_list)
-        return df_out
+            for overview in overviews if overview
+            for datasource, data in overview.get('emissions').items()
+        ]
+        return pd.DataFrame(list_out)
 
     def emissions(self, actor_id: str = None, datasource_id=None, *args, **kwargs):
         """retreive actor emissions
