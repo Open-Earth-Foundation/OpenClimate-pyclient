@@ -1,13 +1,20 @@
 import asyncio
 from dataclasses import dataclass
 from functools import wraps
-import itertools
 import pandas as pd
 import requests
-from typing import List, Dict
+from typing import List, Dict, Union, Tuple
 import warnings
 
 def explode_dict_columns(df: pd.DataFrame = None) -> pd.DataFrame:
+    """expand rows with dictionaries into separate columns
+
+    Args:
+        df (pd.DataFrame): pandas dataframe. Defaults to None.
+
+    Returns:
+        pd.DataFrame: pandas dataframe
+    """
     for col in df.columns:
         if any(isinstance(entry, dict) for entry in df[col]):
             df[col] = df[col].fillna({})
@@ -18,6 +25,14 @@ def explode_dict_columns(df: pd.DataFrame = None) -> pd.DataFrame:
 
 
 def async_func(func):
+    """decorator to turn a synchronous function into async
+
+    Args:
+        func (function): synchronous function
+
+    Returns:
+        function: async function
+    """
     @wraps(func)
     async def wrapper(*args, **kwargs):
         loop = asyncio.get_event_loop()
@@ -28,6 +43,12 @@ def async_func(func):
 
 @dataclass
 class Base:
+    """Base API class
+    define HTTP access to API
+
+    Returns:
+        object
+    """
     version: str = "/api/v1"
     base_url: str = "https://openclimate.openearth.dev"
     server: str = f"{base_url}{version}"
@@ -70,6 +91,14 @@ class ActorOverview(Base):
             self,
             actor_id: str = None
     ) -> Dict:
+        """overview coroutines
+
+        Args:
+            actor_id (str): actor identifier. Defaults to None.
+
+        Returns:
+            Dict: dictionary with actor overview
+        """
         actor_list = [actor_id] if isinstance(actor_id, str) else actor_id
         tasks = [
             asyncio.create_task(self._overview_single_actor(actor))
@@ -80,8 +109,16 @@ class ActorOverview(Base):
 
     def overview(
             self,
-            actor_id: str = None
-    ) -> Dict:
+            actor_id: Union[str, List[str], Tuple[str]] = None
+    ) -> List[Dict]:
+        """Retretive actor overview
+
+        Args:
+            actor_id (Union[str, List[str], Tuple[str]]): actor identifier. Defaults to None.
+
+        Returns:
+            List[Dict]: dictionary with actor overview
+        """
         return asyncio.run(self._overview_coros(actor_id=actor_id))
 
     def parts(
@@ -91,7 +128,7 @@ class ActorOverview(Base):
             *args,
             **kwargs
     ) -> pd.DataFrame:
-        """retreive actor parts
+        """Retreive actor parts (e.g. subnational, cities, ...)
 
         Args:
             actor_id (str): code for actor your want to retrieve
@@ -139,6 +176,16 @@ class ActorOverview(Base):
         *args,
         **kwargs,
      ) -> pd.DataFrame:
+        """returns two-letter country codes
+
+        Args:
+            like (str, optional): filters names. Defaults to None.
+            case_sensitive (bool, optional): make search case-senstive. Defaults to False.
+            regex (bool, optional): use regular expression like phrases. Defaults to True.
+
+        Returns:
+            pd.DataFrame
+        """
         df = (
             self.parts(actor_id="EARTH", part_type="country")
             .loc[:, ["actor_id", "name", "type"]]
@@ -172,7 +219,7 @@ class Search(Base):
             namespace (str, optional): actor namespace code [requires identifier to be be set]
 
         Returns:
-            Str : the full search endpoint
+            str : the full search endpoint
         """
         count = sum(1 for x in [query, identifier, name] if x is not None)
         if count != 1:
@@ -242,8 +289,16 @@ class Search(Base):
 class Emissions(Base):
     def _get_emissions(
             self,
-            overview: dict = None
+            overview: Dict = None
     ) -> pd.DataFrame:
+        """retreive emissions from overview dictionary
+
+        Args:
+            overview (Dict): dictionary of overview
+
+        Returns:
+            pd.DataFrame
+        """
         data = []
         for dataset in overview["emissions"]:
             df_tmp = pd.DataFrame(overview["emissions"][dataset]["data"]).assign(
@@ -263,8 +318,16 @@ class Emissions(Base):
 
     def datasets(
             self,
-            actor_id: str = None
+            actor_id: Union[str, List[str], Tuple[str]] = None
     ) -> pd.DataFrame:
+        """retreive emissions datasets for an actor
+
+        Args:
+            actor_id (Union[str, List[str], Tuple[str]], optional): actor code
+
+        Returns:
+            pd.DataFrame:
+        """
         overviews = ActorOverview().overview(actor_id=actor_id)
         list_out = [
             {
@@ -284,18 +347,19 @@ class Emissions(Base):
 
     def emissions(
             self,
-            actor_id: str = None,
+            actor_id: Union[str, List[str], Tuple[str]] = None,
             datasource_id: str = None,
             *args,
             **kwargs
     ) -> pd.DataFrame:
-        """retreive actor emissions
+        """retrieve actor emissions
 
         Args:
-            actor_id (str): code for actor your want to retrieve
+            actor_id (Union[str, List[str], Tuple[str]], optional): actor code
+            datasource_id (str, optional): emissions datasource. Defaults to None.
 
         Returns:
-            DataFrame: data for each emissions dataset
+            pd.DataFrame: _description_
         """
         try:
             actor_id = [actor_id] if isinstance(actor_id, str) else actor_id
@@ -315,8 +379,16 @@ class Emissions(Base):
 class Targets(Base):
     def _get_target(
             self,
-            overview: dict=None
+            overview: Dict = None
     ) -> pd.DataFrame:
+        """retreive targets from overview dictionary
+
+        Args:
+            overview (Dict): dictionary of overview
+
+        Returns:
+            pd.DataFrame
+        """
         data = overview["targets"]
         columns = [
             "actor_id",
@@ -350,17 +422,17 @@ class Targets(Base):
 
     def targets(
             self,
-            actor_id: str = None,
+            actor_id: Union[str, List[str], Tuple[str]] = None,
             *args,
             **kwargs
     ) -> pd.DataFrame:
         """retreive actor targets
 
         Args:
-            actor_id (str): code for actor your want to retrieve
+            actor_id (Union[str, List[str], Tuple[str]], optional): actor code
 
         Returns:
-            DataFrame: data for each emissions dataset
+            pd.DataFrame:
         """
         try:
             actor_id = [actor_id] if isinstance(actor_id, str) else actor_id
@@ -376,8 +448,16 @@ class Targets(Base):
 class Population(Base):
     def _get_population(
             self,
-            overview: dict = None
+            overview: Dict = None
     ) -> pd.DataFrame:
+        """retreive population from overview dictionary
+
+        Args:
+            overview (Dict): dictionary of overview
+
+        Returns:
+            pd.DataFrame
+        """
         data = overview["population"]
         df = pd.DataFrame(data).sort_values(by=["year"])
         df["actor_id"] = overview["actor_id"]
@@ -394,19 +474,17 @@ class Population(Base):
 
     def population(
             self,
-            actor_id: str = None,
+            actor_id: Union[str, List[str], Tuple[str]] = None,
             *args,
             **kwargs
     ) -> pd.DataFrame:
-        """retreive actor emissions
-
-        ** THIS NEEDS TO WORK WITH LIST OR STRING
+        """retreive actor population
 
         Args:
-            actor_id (str): code for actor your want to retrieve
+            actor_id (Union[str, List[str], Tuple[str]], optional): actor code
 
         Returns:
-            DataFrame: data for each emissions dataset
+            pd.DataFrame:
         """
         try:
             actor_id = [actor_id] if isinstance(actor_id, str) else actor_id
@@ -422,8 +500,16 @@ class Population(Base):
 class GDP(Base):
     def _get_gdp(
             self,
-            overview: dict = None
+            overview: Dict = None
     ) -> pd.DataFrame:
+        """retreive GDP from overview dictionary
+
+        Args:
+            overview (Dict): dictionary of overview
+
+        Returns:
+            pd.DataFrame
+        """
         data = overview["gdp"]
         df = pd.DataFrame(data).sort_values(by=["year"])
         df["actor_id"] = overview["actor_id"]
@@ -440,17 +526,17 @@ class GDP(Base):
 
     def gdp(
             self,
-            actor_id: str = None,
+            actor_id: Union[str, List[str], Tuple[str]] = None,
             *args,
             **kwargs
     ) -> pd.DataFrame:
-        """retreive actor emissions
+        """retreive actor GDP
 
         Args:
-            actor_id (str): code for actor your want to retrieve
+            actor_id (Union[str, List[str], Tuple[str]], optional): actor code
 
         Returns:
-            DataFrame: data for each emissions dataset
+            pd.DataFrame:
         """
         try:
             actor_id = [actor_id] if isinstance(actor_id, str) else actor_id
