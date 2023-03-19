@@ -1,6 +1,6 @@
 """
 Set up module access for the base package
 """
-from .openclimate import Client
+from .Client import Client
 
 __all__ = ['Client']
