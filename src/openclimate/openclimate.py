@@ -4,10 +4,10 @@ from functools import wraps
 import itertools
 import pandas as pd
 import requests
+from typing import List, Dict
 import warnings
 
-
-def explode_dict_columns(df):
+def explode_dict_columns(df: pd.DataFrame = None) -> pd.DataFrame:
     for col in df.columns:
         if any(isinstance(entry, dict) for entry in df[col]):
             df[col] = df[col].fillna({})
@@ -44,7 +44,10 @@ class ActorOverview(Base):
     """Get overview of actor for processing"""
 
     @async_func
-    def _overview_single_actor(self, actor_id: str = None):
+    def _overview_single_actor(
+        self,
+        actor_id: str = None
+    ) -> Dict:
         """retreive actor emissions
 
         Args:
@@ -63,7 +66,10 @@ class ActorOverview(Base):
             return None
         return data_list
 
-    async def _overview_coros(self, actor_id: str = None):
+    async def _overview_coros(
+            self,
+            actor_id: str = None
+    ) -> Dict:
         actor_list = [actor_id] if isinstance(actor_id, str) else actor_id
         tasks = [
             asyncio.create_task(self._overview_single_actor(actor))
@@ -72,10 +78,19 @@ class ActorOverview(Base):
         results = await asyncio.gather(*tasks)
         return results
 
-    def overview(self, actor_id: str = None):
+    def overview(
+            self,
+            actor_id: str = None
+    ) -> Dict:
         return asyncio.run(self._overview_coros(actor_id=actor_id))
 
-    def parts(self, actor_id: str = None, part_type: str = None, *args, **kwargs):
+    def parts(
+            self,
+            actor_id: str = None,
+            part_type: str = None,
+            *args,
+            **kwargs
+    ) -> pd.DataFrame:
         """retreive actor parts
 
         Args:
@@ -123,7 +138,7 @@ class ActorOverview(Base):
         regex: bool = True,
         *args,
         **kwargs,
-    ):
+     ) -> pd.DataFrame:
         df = (
             self.parts(actor_id="EARTH", part_type="country")
             .loc[:, ["actor_id", "name", "type"]]
@@ -146,7 +161,7 @@ class Search(Base):
         namespace: str = None,
         *args,
         **kwargs,
-    ):
+    ) -> str:
         """retrieve search endpoint
 
         Args:
@@ -186,7 +201,7 @@ class Search(Base):
         namespace: str = None,
         *args,
         **kwargs,
-    ):
+    ) -> pd.DataFrame:
         """search actors
 
         Args:
@@ -225,7 +240,10 @@ class Search(Base):
 
 @dataclass
 class Emissions(Base):
-    def _get_emissions(self, overview=None):
+    def _get_emissions(
+            self,
+            overview: dict = None
+    ) -> pd.DataFrame:
         data = []
         for dataset in overview["emissions"]:
             df_tmp = pd.DataFrame(overview["emissions"][dataset]["data"]).assign(
@@ -243,7 +261,10 @@ class Emissions(Base):
         )
         return df_out.reset_index(drop=True)
 
-    def datasets(self, actor_id: str = None):
+    def datasets(
+            self,
+            actor_id: str = None
+    ) -> pd.DataFrame:
         overviews = ActorOverview().overview(actor_id=actor_id)
         list_out = [
             {
@@ -261,7 +282,13 @@ class Emissions(Base):
             return pd.DataFrame(list_out)
         return None
 
-    def emissions(self, actor_id: str = None, datasource_id=None, *args, **kwargs):
+    def emissions(
+            self,
+            actor_id: str = None,
+            datasource_id: str = None,
+            *args,
+            **kwargs
+    ) -> pd.DataFrame:
         """retreive actor emissions
 
         Args:
@@ -286,7 +313,10 @@ class Emissions(Base):
 
 @dataclass
 class Targets(Base):
-    def _get_target(self, overview):
+    def _get_target(
+            self,
+            overview: dict=None
+    ) -> pd.DataFrame:
         data = overview["targets"]
         columns = [
             "actor_id",
@@ -318,7 +348,12 @@ class Targets(Base):
             .reset_index(drop=True)
         )
 
-    def targets(self, actor_id: str = None, *args, **kwargs):
+    def targets(
+            self,
+            actor_id: str = None,
+            *args,
+            **kwargs
+    ) -> pd.DataFrame:
         """retreive actor targets
 
         Args:
@@ -339,7 +374,10 @@ class Targets(Base):
 
 @dataclass
 class Population(Base):
-    def _get_population(self, overview):
+    def _get_population(
+            self,
+            overview: dict = None
+    ) -> pd.DataFrame:
         data = overview["population"]
         df = pd.DataFrame(data).sort_values(by=["year"])
         df["actor_id"] = overview["actor_id"]
@@ -354,7 +392,12 @@ class Population(Base):
         ]
         return explode_dict_columns(df).loc[:, columns].reset_index(drop=True)
 
-    def population(self, actor_id: str = None, *args, **kwargs):
+    def population(
+            self,
+            actor_id: str = None,
+            *args,
+            **kwargs
+    ) -> pd.DataFrame:
         """retreive actor emissions
 
         ** THIS NEEDS TO WORK WITH LIST OR STRING
@@ -377,7 +420,10 @@ class Population(Base):
 
 @dataclass
 class GDP(Base):
-    def _get_gdp(self, overview):
+    def _get_gdp(
+            self,
+            overview: dict = None
+    ) -> pd.DataFrame:
         data = overview["gdp"]
         df = pd.DataFrame(data).sort_values(by=["year"])
         df["actor_id"] = overview["actor_id"]
@@ -392,7 +438,12 @@ class GDP(Base):
         ]
         return explode_dict_columns(df).loc[:, columns].reset_index(drop=True)
 
-    def gdp(self, actor_id: str = None, *args, **kwargs):
+    def gdp(
+            self,
+            actor_id: str = None,
+            *args,
+            **kwargs
+    ) -> pd.DataFrame:
         """retreive actor emissions
 
         Args:
