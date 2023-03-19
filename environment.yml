@@ -7,4 +7,4 @@ dependencies:
 - numpy==1.23.3
 - pip
 - pip:
-  - git+https://github.com/Open-Earth-Foundation/OpenClimate-pyclient.git#egg=oc_pyclient
+  - openclimate
