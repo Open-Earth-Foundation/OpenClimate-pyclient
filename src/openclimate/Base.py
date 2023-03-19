@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 
+
 @dataclass
 class Base:
     """Base API class
@@ -8,6 +9,7 @@ class Base:
     Returns:
         object
     """
+
     version: str = "/api/v1"
     base_url: str = "https://openclimate.openearth.dev"
     server: str = f"{base_url}{version}"
@@ -17,4 +19,3 @@ class Base:
 
     def __str__(self):
         return f"OpenClimate({self.server})"
-

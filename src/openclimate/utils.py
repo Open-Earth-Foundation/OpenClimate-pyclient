@@ -3,6 +3,7 @@ from functools import wraps
 import pandas as pd
 from typing import List, Dict, Union, Tuple
 
+
 def explode_dict_columns(df: pd.DataFrame = None) -> pd.DataFrame:
     """expand rows with dictionaries into separate columns
 
@@ -30,6 +31,7 @@ def async_func(func):
     Returns:
         function: async function
     """
+
     @wraps(func)
     async def wrapper(*args, **kwargs):
         loop = asyncio.get_event_loop()

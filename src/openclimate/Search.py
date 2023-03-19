@@ -5,6 +5,7 @@ from typing import List, Dict, Union, Tuple
 
 from .Base import Base
 
+
 @dataclass
 class Search(Base):
     def _search_endpoint(

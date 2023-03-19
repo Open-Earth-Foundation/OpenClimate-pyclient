@@ -7,12 +7,10 @@ from .utils import explode_dict_columns
 from .ActorOverview import ActorOverview
 from .Base import Base
 
+
 @dataclass
 class GDP(Base):
-    def _get_gdp(
-            self,
-            overview: Dict = None
-    ) -> pd.DataFrame:
+    def _get_gdp(self, overview: Dict = None) -> pd.DataFrame:
         """retreive GDP from overview dictionary
 
         Args:
@@ -36,10 +34,7 @@ class GDP(Base):
         return explode_dict_columns(df).loc[:, columns].reset_index(drop=True)
 
     def gdp(
-            self,
-            actor_id: Union[str, List[str], Tuple[str]] = None,
-            *args,
-            **kwargs
+        self, actor_id: Union[str, List[str], Tuple[str]] = None, *args, **kwargs
     ) -> pd.DataFrame:
         """retreive actor GDP
 
@@ -57,4 +52,3 @@ class GDP(Base):
         else:
             df_list = [self._get_gdp(overview) for overview in overviews if overview]
             return pd.concat(df_list)
-

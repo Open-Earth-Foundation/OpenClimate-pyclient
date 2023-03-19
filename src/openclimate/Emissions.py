@@ -5,12 +5,10 @@ from typing import List, Dict, Union, Tuple
 from .ActorOverview import ActorOverview
 from .Base import Base
 
+
 @dataclass
 class Emissions(Base):
-    def _get_emissions(
-            self,
-            overview: Dict = None
-    ) -> pd.DataFrame:
+    def _get_emissions(self, overview: Dict = None) -> pd.DataFrame:
         """retreive emissions from overview dictionary
 
         Args:
@@ -37,8 +35,7 @@ class Emissions(Base):
         return df_out.reset_index(drop=True)
 
     def datasets(
-            self,
-            actor_id: Union[str, List[str], Tuple[str]] = None
+        self, actor_id: Union[str, List[str], Tuple[str]] = None
     ) -> pd.DataFrame:
         """retreive emissions datasets for an actor
 
@@ -51,26 +48,27 @@ class Emissions(Base):
         overviews = ActorOverview().overview(actor_id=actor_id)
         list_out = [
             {
-                'actor_id': overview.get('actor_id'),
-                'datasource_id': datasource,
-                'name': data.get('name'),
-                'publisher': data.get('publisher'),
-                'published': data.get('published'),
-                'URL': data.get('URL')
+                "actor_id": overview.get("actor_id"),
+                "datasource_id": datasource,
+                "name": data.get("name"),
+                "publisher": data.get("publisher"),
+                "published": data.get("published"),
+                "URL": data.get("URL"),
             }
-            for overview in overviews if overview
-            for datasource, data in overview.get('emissions').items()
+            for overview in overviews
+            if overview
+            for datasource, data in overview.get("emissions").items()
         ]
         if list_out:
             return pd.DataFrame(list_out)
         return None
 
     def emissions(
-            self,
-            actor_id: Union[str, List[str], Tuple[str]] = None,
-            datasource_id: str = None,
-            *args,
-            **kwargs
+        self,
+        actor_id: Union[str, List[str], Tuple[str]] = None,
+        datasource_id: str = None,
+        *args,
+        **kwargs,
     ) -> pd.DataFrame:
         """retrieve actor emissions
 
@@ -87,7 +85,9 @@ class Emissions(Base):
         except Exception:
             print(f"Something went wrong, check that {actor_id} is an actor")
         else:
-            df_list = [self._get_emissions(overview) for overview in overviews if overview]
+            df_list = [
+                self._get_emissions(overview) for overview in overviews if overview
+            ]
             df = pd.concat(df_list)
             if datasource_id:
                 return df.loc[df["datasource_id"] == datasource_id]

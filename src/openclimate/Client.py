@@ -10,6 +10,7 @@ from .Population import Population
 from .Search import Search
 from .Targets import Targets
 
+
 @dataclass
 class Client(Base):
     """OpenClimate API Python Client
@@ -31,15 +32,15 @@ class Client(Base):
     nest_asyncio.apply()
     ```
     """
+
     @property
     def jupyter(self):
         import nest_asyncio
+
         nest_asyncio.apply()
 
     def emissions(
-            self,
-            actor_id: str=None,
-            datasource_id: str=None
+        self, actor_id: str = None, datasource_id: str = None
     ) -> pd.DataFrame:
         """retreive actor emissions
 
@@ -52,10 +53,7 @@ class Client(Base):
         """
         return Emissions().emissions(actor_id=actor_id, datasource_id=datasource_id)
 
-    def emissions_datasets(
-            self,
-            actor_id: str=None
-    ) -> pd.DataFrame:
+    def emissions_datasets(self, actor_id: str = None) -> pd.DataFrame:
         """retreive actor emissions datasets
 
         Args:
@@ -66,10 +64,7 @@ class Client(Base):
         """
         return Emissions().datasets(actor_id=actor_id)
 
-    def targets(
-            self,
-            actor_id: str=None
-    ) -> pd.DataFrame:
+    def targets(self, actor_id: str = None) -> pd.DataFrame:
         """retreive actor targets
         Args:
             actor_id (str|List[str]): code for actor your want to retrieve
@@ -79,10 +74,7 @@ class Client(Base):
         """
         return Targets().targets(actor_id=actor_id)
 
-    def population(
-            self,
-            actor_id: str=None
-    ) -> pd.DataFrame:
+    def population(self, actor_id: str = None) -> pd.DataFrame:
         """retreive actor population
 
         Args:
@@ -93,10 +85,7 @@ class Client(Base):
         """
         return Population().population(actor_id=actor_id)
 
-    def gdp(
-            self,
-            actor_id: str =None
-    ) -> pd.DataFrame:
+    def gdp(self, actor_id: str = None) -> pd.DataFrame:
         """retreive actor GDP
 
         Args:
@@ -108,12 +97,8 @@ class Client(Base):
         return GDP().gdp(actor_id=actor_id)
 
     def parts(
-            self,
-            actor_id: str = None,
-            part_type: str = None,
-            *args,
-            **kwargs
-        ) -> pd.DataFrame:
+        self, actor_id: str = None, part_type: str = None, *args, **kwargs
+    ) -> pd.DataFrame:
         """retreive actor parts
 
         returns subnational, cities, companies, etc. within an actor_id

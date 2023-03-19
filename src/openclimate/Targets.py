@@ -7,12 +7,10 @@ from .utils import explode_dict_columns
 from .ActorOverview import ActorOverview
 from .Base import Base
 
+
 @dataclass
 class Targets(Base):
-    def _get_target(
-            self,
-            overview: Dict = None
-    ) -> pd.DataFrame:
+    def _get_target(self, overview: Dict = None) -> pd.DataFrame:
         """retreive targets from overview dictionary
 
         Args:
@@ -53,10 +51,7 @@ class Targets(Base):
         )
 
     def targets(
-            self,
-            actor_id: Union[str, List[str], Tuple[str]] = None,
-            *args,
-            **kwargs
+        self, actor_id: Union[str, List[str], Tuple[str]] = None, *args, **kwargs
     ) -> pd.DataFrame:
         """retreive actor targets
 
@@ -74,4 +69,3 @@ class Targets(Base):
         else:
             df_list = [self._get_target(overview) for overview in overviews if overview]
             return pd.concat(df_list)
-

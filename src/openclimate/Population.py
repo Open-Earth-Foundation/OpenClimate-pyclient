@@ -7,12 +7,10 @@ from .utils import explode_dict_columns
 from .ActorOverview import ActorOverview
 from .Base import Base
 
+
 @dataclass
 class Population(Base):
-    def _get_population(
-            self,
-            overview: Dict = None
-    ) -> pd.DataFrame:
+    def _get_population(self, overview: Dict = None) -> pd.DataFrame:
         """retreive population from overview dictionary
 
         Args:
@@ -36,10 +34,7 @@ class Population(Base):
         return explode_dict_columns(df).loc[:, columns].reset_index(drop=True)
 
     def population(
-            self,
-            actor_id: Union[str, List[str], Tuple[str]] = None,
-            *args,
-            **kwargs
+        self, actor_id: Union[str, List[str], Tuple[str]] = None, *args, **kwargs
     ) -> pd.DataFrame:
         """retreive actor population
 
@@ -55,6 +50,7 @@ class Population(Base):
         except Exception:
             print(f"Something went wrong, check that {actor_id} is an actor")
         else:
-            df_list = [self._get_population(overview) for overview in overviews if overview]
+            df_list = [
+                self._get_population(overview) for overview in overviews if overview
+            ]
             return pd.concat(df_list)
-

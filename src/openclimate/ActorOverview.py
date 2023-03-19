@@ -8,15 +8,13 @@ import warnings
 from .utils import async_func
 from .Base import Base
 
+
 @dataclass
 class ActorOverview(Base):
     """Get overview of actor for processing"""
 
     @async_func
-    def _overview_single_actor(
-        self,
-        actor_id: str = None
-    ) -> Dict:
+    def _overview_single_actor(self, actor_id: str = None) -> Dict:
         """retreive actor emissions
 
         Args:
@@ -31,14 +29,13 @@ class ActorOverview(Base):
         response = requests.get(url, headers=headers).json()
         data_list = response.get("data", None)
         if data_list is None:
-            warnings.warn(f"ActorIDError: {actor_id} was not found", category=SyntaxWarning)
+            warnings.warn(
+                f"ActorIDError: {actor_id} was not found", category=SyntaxWarning
+            )
             return None
         return data_list
 
-    async def _overview_coros(
-            self,
-            actor_id: str = None
-    ) -> Dict:
+    async def _overview_coros(self, actor_id: str = None) -> Dict:
         """overview coroutines
 
         Args:
@@ -56,8 +53,7 @@ class ActorOverview(Base):
         return results
 
     def overview(
-            self,
-            actor_id: Union[str, List[str], Tuple[str]] = None
+        self, actor_id: Union[str, List[str], Tuple[str]] = None
     ) -> List[Dict]:
         """Retretive actor overview
 
@@ -70,11 +66,7 @@ class ActorOverview(Base):
         return asyncio.run(self._overview_coros(actor_id=actor_id))
 
     def parts(
-            self,
-            actor_id: str = None,
-            part_type: str = None,
-            *args,
-            **kwargs
+        self, actor_id: str = None, part_type: str = None, *args, **kwargs
     ) -> pd.DataFrame:
         """Retreive actor parts (e.g. subnational, cities, ...)
 
@@ -123,7 +115,7 @@ class ActorOverview(Base):
         regex: bool = True,
         *args,
         **kwargs,
-     ) -> pd.DataFrame:
+    ) -> pd.DataFrame:
         """returns two-letter country codes
 
         Args:
