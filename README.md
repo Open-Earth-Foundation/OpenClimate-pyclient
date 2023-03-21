@@ -1,5 +1,6 @@
 # OpenClimate-pyclient
 
+[![Documentation Status](https://readthedocs.org/projects/openclimate-pyclient/badge/?version=latest)](https://openclimate-pyclient.readthedocs.io/en/latest/?badge=latest)
 [![pypi](https://badgen.net/pypi/v/openclimate)](https://pypi.org/project/openclimate)
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/Open-Earth-Foundation/OpenClimate-pyclient/issues)
