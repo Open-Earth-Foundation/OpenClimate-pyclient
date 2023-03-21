@@ -1,22 +1,45 @@
-OpenClimate PyClient Documentation
-===================================
+.. OpenClimate pyClient documentation master file, created by
+   sphinx-quickstart on Tue Mar 21 11:04:56 2023.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
 
-**OpenClimate** aggregates greenhouse gas (GHG) emissions from states and non-state actors
-as well as emission pledges into single a platform. The OpenClimate PyClient is wrapper around the
+Welcome to OpenClimate Python Client Documentation!
+======================================================
+
+OpenClimate Python Client is a Python 3.6+ package uses the
 `OpenClimate API <https://github.com/Open-Earth-Foundation/OpenClimate/blob/develop/api/API.md>`_
-to make the data more accessible to the Python community.
+to make emissions data and pledges easily accessible.
 
-Check out the :doc:`usage` section for further information, including
-how to :ref:`installation` the project.
+Installation
+------------
 
-.. note::
+.. code-block:: bash
 
-   This project is under active development.
+   # for latest release
+   pip install openclimate
 
-Contents
---------
+   # for bleeding-edge up-to-date commit
+   pip install -e git+https://github.com/Open-Earth-Foundation/OpenClimate-pyclient.git
 
 .. toctree::
+   :maxdepth: 2
+   :caption: Contents:
 
    usage
    api
+
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Help and Reference
+
+   contributing
+   authors
+   GitHub Repo <https://github.com/Open-Earth-Foundation/OpenClimate-pyclient>
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`

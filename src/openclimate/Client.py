@@ -15,11 +15,8 @@ from .Targets import Targets
 class Client(Base):
     """OpenClimate API Python Client
 
-    ###############################################
-    #                                             #
-    #      Run if using Jupyter or iPython        #
-    #                                             #
-    ###############################################
+    *If you are using Jupyter*
+
     either run
     ```python
     client = Client()
@@ -66,6 +63,7 @@ class Client(Base):
 
     def targets(self, actor_id: str = None) -> pd.DataFrame:
         """retreive actor targets
+
         Args:
             actor_id (str|List[str]): code for actor your want to retrieve
 
@@ -105,8 +103,7 @@ class Client(Base):
 
         Args:
             actor_id (str|List[str]): code for actor your want to retrieve
-            part_type (str): retrieve actors from administrative part
-                ['planet', 'country', 'adm1', 'adm2', 'city', 'organization', 'site']
+            part_type (str): retrieve actors from administrative part ['planet', 'country', 'adm1', 'adm2', 'city', 'organization', 'site']
 
         Returns:
             DataFrame: dataframe of actors parts
