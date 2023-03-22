@@ -10,16 +10,16 @@ dependencies:
    - sphinx
    - sphinx_rtd_theme
    - ipython
-   - nbconvert=6.4.3
+   - nbconvert
    - nbformat
    - ipykernel
    - pandoc
-   - jinja2
    - pip
    - pip:
      - docrep<=0.2.7
      - nbsphinx
      - jupyter_client
+     - Jinja2
      - sphinx_pangeo_theme
      - sphinx-copybutton
      - sphinxcontrib-srclinks
