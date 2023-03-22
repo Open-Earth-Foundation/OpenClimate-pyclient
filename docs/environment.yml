@@ -19,7 +19,7 @@ dependencies:
      - docrep<=0.2.7
      - nbsphinx
      - jupyter_client
-     - Jinja2
+     - Jinja2>=3.0
      - sphinx_pangeo_theme
      - sphinx-copybutton
      - sphinxcontrib-srclinks
