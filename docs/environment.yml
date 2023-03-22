@@ -10,7 +10,7 @@ dependencies:
    - sphinx
    - sphinx_rtd_theme
    - ipython
-   - nbconvert==6.4.3
+   - nbconvert=6.4.3
    - nbformat
    - ipykernel
    - pandoc
