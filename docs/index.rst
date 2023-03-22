@@ -6,9 +6,12 @@
 Welcome to OpenClimate Python Client Documentation!
 ======================================================
 
-OpenClimate Python Client is a Python 3.6+ package uses the
+OpenClimate Python Client is a Python 3.6+ package that uses the
 `OpenClimate API <https://github.com/Open-Earth-Foundation/OpenClimate/blob/develop/api/API.md>`_
 to make emissions data and pledges easily accessible.
+
+This is a work in progress, open `issues <https://github.com/Open-Earth-Foundation/OpenClimate-pyclient/issues>`__
+on GitHub and `contributing code <contributing>`_ is strongly encouraged.
 
 Installation
 ------------
