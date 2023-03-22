@@ -28,6 +28,12 @@ Installation
    usage
    api
 
+.. toctree::
+   :maxdepth: 2
+   :caption: Analyses:
+
+   notebooks/cumulative_emissions
+   notebooks/great_britain_emissions
 
 .. toctree::
    :maxdepth: 2
