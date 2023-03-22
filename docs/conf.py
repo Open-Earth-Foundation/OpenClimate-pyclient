@@ -35,6 +35,7 @@ release = '0.1.0'
 extensions = ['sphinx.ext.autodoc', 'nbsphinx']
 
 nbsphinx_execute = 'always'
+nbsphinx_allow_errors = True
 templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store', "**.ipynb_checkpoints"]
 
