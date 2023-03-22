@@ -10,8 +10,16 @@
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 
 import os
+import pathlib
 import sys
+from pkg_resources import get_distribution
 sys.path.insert(0, os.path.abspath('../src'))
+
+root = pathlib.Path(__file__).parent.parent.absolute()
+os.environ["PYTHONPATH"] = str(root)
+sys.path.insert(0, str(root))
+print("python exec:", sys.executable)
+print("sys.path:", sys.path)
 
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
