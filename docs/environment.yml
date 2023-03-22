@@ -7,9 +7,11 @@ dependencies:
    - matplotlib
    # These are needed for the docs themselves
    - numpydoc
+   - nbsphinx
    - sphinx
    - sphinx_rtd_theme
    - ipython
+   - Jinja2>=3.0
    - nbconvert
    - nbformat
    - ipykernel
@@ -17,9 +19,7 @@ dependencies:
    - pip
    - pip:
      - docrep<=0.2.7
-     - nbsphinx
      - jupyter_client
-     - Jinja2>=3.0
      - sphinx_pangeo_theme
      - sphinx-copybutton
      - sphinxcontrib-srclinks
