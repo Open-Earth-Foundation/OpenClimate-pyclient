@@ -9,7 +9,8 @@ dependencies:
    - sphinx
    - sphinx_rtd_theme
    - ipython
-   - nbconvert
+   - jinja2=3.0.3
+   - nbconvert=6.4.4
    - nbformat
    - ipykernel
    - pandoc
