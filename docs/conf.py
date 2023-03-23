@@ -21,16 +21,14 @@ sys.path.insert(0, str(root))
 print("python exec:", sys.executable)
 print("sys.path:", sys.path)
 
-import openclimate
-
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = 'OpenClimate pyClient'
 copyright = '2023, Open Earth Foundation'
 author = 'Open Earth Foundation'
-release = get_distribution("openclimate").version
-version = ".".join(release.split(".")[:2])
+release = "0.1.0"
+version = "0.1"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
