@@ -67,7 +67,7 @@ html_theme_options = {
 }
 
 # make file (relative to this directory) to place at the top of the sidebar.
-html_logo = "img/OC-Logo_white.png"
+html_logo = "img/OC-Logo.png"
 html_theme = "sphinx_rtd_theme"
 html_static_path = ['_static']
 html_css_files = [
