@@ -15,6 +15,7 @@ dependencies:
    - pandoc
    - pip
    - pip:
+     - ipython_genutils>=0.1.0
      - docrep<=0.2.7
      - nbsphinx
      - jupyter_client
