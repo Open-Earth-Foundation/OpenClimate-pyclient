@@ -29,7 +29,7 @@ import openclimate
 project = 'OpenClimate pyClient'
 copyright = '2023, Open Earth Foundation'
 author = 'Open Earth Foundation'
-release = get_distribution("pyseaflux").version
+release = get_distribution("openclimate").version
 version = ".".join(release.split(".")[:2])
 
 # -- General configuration ---------------------------------------------------
