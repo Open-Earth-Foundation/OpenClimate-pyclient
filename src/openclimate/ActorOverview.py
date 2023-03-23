@@ -11,8 +11,12 @@ from .Base import Base
 
 @dataclass
 class ActorOverview(Base):
-    """Get overview of actor for processing"""
+    """ActorOveriew API class
+    get overview information of an actor
 
+    Returns:
+        object
+    """
     @async_func
     def _overview_single_actor(self, actor_id: str = None) -> Dict:
         """retreive actor emissions
