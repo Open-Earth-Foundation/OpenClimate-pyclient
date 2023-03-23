@@ -59,10 +59,11 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store', "**.ipynb_checkpoints"]
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
+# have to change background color here and in custom CSS
 html_theme_options = {
     "logo_only": True,
     "display_version": False,
-    "style_nav_header_background": "#1d3550",
+    "style_nav_header_background": "#232640",
 }
 
 # make file (relative to this directory) to place at the top of the sidebar.
