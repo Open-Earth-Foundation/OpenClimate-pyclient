@@ -3,16 +3,21 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to OpenClimate Python Client Documentation!
+OpenClimate Python Client Documentation
 ======================================================
 
-OpenClimate Python Client is a Python 3.6+ package that uses the
-`OpenClimate API <https://github.com/Open-Earth-Foundation/OpenClimate/blob/develop/api/API.md>`_
-to make emissions data and pledges easily accessible.
+OpenClimate is a datastore for emissions data and target pledges.
+The OpenClimate Python Client is a Python 3.6+ provides a
+high-level interface to the
+`OpenClimate API <https://github.com/Open-Earth-Foundation/OpenClimate/blob/develop/api/API.md>`_.
 
-This is a work in progress, we strongly encourage you to open
-`issues <https://github.com/Open-Earth-Foundation/OpenClimate-pyclient/issues>`_
-on GitHub and contribute code.
+The goal of this package is to focus on the analysis by
+abstracting away the details of making HTTP requests and handling responses.
+
+.. note::
+   This is a work in progress. We strongly encourage you to open
+   `issues <https://github.com/Open-Earth-Foundation/OpenClimate-pyclient/issues>`_
+   and contribute code.
 
 Installation
 ------------
@@ -36,6 +41,7 @@ Installation
    :maxdepth: 2
    :caption: Analyses:
 
+   notebooks/emissions_and_emissions_per_capita
    notebooks/cumulative_emissions
    notebooks/great_britain_emissions
 

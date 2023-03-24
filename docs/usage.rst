@@ -4,7 +4,7 @@ Quickstart Guide
 Installation
 ----------------------------------------------------
 
-Make sure you have `openclimate` installed
+Install `openclimate` using `pip`.
 
 .. code-block:: bash
 
@@ -14,13 +14,19 @@ Make sure you have `openclimate` installed
    # for bleeding-edge up-to-date commit
    pip install -e git+https://github.com/Open-Earth-Foundation/OpenClimate-pyclient.git
 
-Import and create a `Client()` object
+Once installed, import the package and create a `Client()` object.
 
 .. code-block:: python
 
     from openclimate import Client
-
     client = Client()
+
+    # if using jupyter or iPython
+    client.jupyter
+
+.. note::
+    You need to run `client.jupyter` for the client package
+    to work properly in Jupyter or iPython.
 
 
 Emissions
