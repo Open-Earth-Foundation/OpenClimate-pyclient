@@ -21,35 +21,40 @@ class Targets(Base):
             pd.DataFrame
         """
         data = overview["targets"]
-        columns = [
-            "actor_id",
-            "target_type",
-            "baseline_year",
-            "baseline_value",
-            "target_year",
-            "target_value",
-            "target_unit",
-            "datasource_id",
-            "datasource_name",
-            "datasource_publisher",
-            "datasource_published",
-            "datasource_URL",
-            "initiative_initiative_id",
-            "initiative_name",
-            "initiative_description",
-            "initiative_URL",
-        ]
-        df = (
-            pd.DataFrame(data)
-            .sort_values(by=["target_year"])
-            .assign(actor_id=overview["actor_id"])
-        )
-        return (
-            explode_dict_columns(df)
-            .loc[:, columns]
-            .rename({"initiative_initiative_id": "initiative_id"})
-            .reset_index(drop=True)
-        )
+
+        if data:
+            columns = [
+                "actor_id",
+                "target_type",
+                "baseline_year",
+                "baseline_value",
+                "target_year",
+                "target_value",
+                "target_unit",
+                "datasource_id",
+                "datasource_name",
+                "datasource_publisher",
+                "datasource_published",
+                "datasource_URL",
+                "initiative_initiative_id",
+                "initiative_name",
+                "initiative_description",
+                "initiative_URL",
+            ]
+            df = (
+                pd.DataFrame(data)
+                .sort_values(by=["target_year"])
+                .assign(actor_id=overview["actor_id"])
+            )
+            return (
+                explode_dict_columns(df)
+                .loc[:, columns]
+                .rename({"initiative_initiative_id": "initiative_id"})
+                .reset_index(drop=True)
+            )
+
+        return None
+
 
     def targets(
         self, actor_id: Union[str, List[str], Tuple[str]] = None, ignore_warnings: bool = False, *args, **kwargs
