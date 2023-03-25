@@ -3,6 +3,7 @@ import pandas as pd
 from typing import List, Dict, Union, Tuple
 
 from .utils import explode_dict_columns
+from .utils import filter_overviews
 
 from .ActorOverview import ActorOverview
 from .Base import Base
@@ -67,5 +68,7 @@ class Targets(Base):
         except Exception:
             print(f"Something went wrong, check that {actor_id} is an actor")
         else:
+            overviews = filter_overviews(overviews, 'targets')
+            overviews = [overview for overview in overviews if 'targets' in overview.keys()]
             df_list = [self._get_target(overview) for overview in overviews if overview]
             return pd.concat(df_list)
