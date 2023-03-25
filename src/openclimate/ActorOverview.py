@@ -18,15 +18,17 @@ class ActorOverview(Base):
         object
     """
     @async_func
-    def _overview_single_actor(self, actor_id: str = None) -> Dict:
+    def _overview_single_actor(self, actor_id: str = None, ignore_warnings: bool = False) -> Dict:
         """retreive actor emissions
 
         Args:
             actor_id (str): code for actor your want to retrieve
+            ignore_warnings (bool): ignore warning messages
 
         Returns:
             DataFrame: data for each emissions dataset
         """
+        warnings.simplefilter('ignore') if ignore_warnings else warnings.simplefilter('default')
         endpoint = f"/actor/{actor_id}"
         url = f"{self.server}{endpoint}"
         headers = {"Accept": "application/json"}
@@ -39,35 +41,37 @@ class ActorOverview(Base):
             return None
         return data_list
 
-    async def _overview_coros(self, actor_id: str = None) -> Dict:
+    async def _overview_coros(self, actor_id: str = None, ignore_warnings: bool = False) -> Dict:
         """overview coroutines
 
         Args:
             actor_id (str): actor identifier. Defaults to None.
+            ignore_warnings (bool): ignore warning messages
 
         Returns:
             Dict: dictionary with actor overview
         """
         actor_list = [actor_id] if isinstance(actor_id, str) else actor_id
         tasks = [
-            asyncio.create_task(self._overview_single_actor(actor))
+            asyncio.create_task(self._overview_single_actor(actor, ignore_warnings))
             for actor in actor_list
         ]
         results = await asyncio.gather(*tasks)
         return results
 
     def overview(
-        self, actor_id: Union[str, List[str], Tuple[str]] = None
+        self, actor_id: Union[str, List[str], Tuple[str]] = None, ignore_warnings: bool = False
     ) -> List[Dict]:
         """Retretive actor overview
 
         Args:
             actor_id (Union[str, List[str], Tuple[str]]): actor identifier. Defaults to None.
+            ignore_warnings (bool): ignore warning messages
 
         Returns:
             List[Dict]: dictionary with actor overview
         """
-        return asyncio.run(self._overview_coros(actor_id=actor_id))
+        return asyncio.run(self._overview_coros(actor_id=actor_id, ignore_warnings=ignore_warnings))
 
     def parts(
         self, actor_id: str = None, part_type: str = None, *args, **kwargs
