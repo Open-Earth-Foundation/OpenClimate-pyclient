@@ -37,62 +37,67 @@ class Client(Base):
         nest_asyncio.apply()
 
     def emissions(
-        self, actor_id: str = None, datasource_id: str = None
+        self, actor_id: str = None, datasource_id: str = None, ignore_warnings: bool = False
     ) -> pd.DataFrame:
         """retreive actor emissions
 
         Args:
             actor_id (str|List[str]): code for actor your want to retrieve
             datasource_id (str): code emissions dataset
+            ignore_warnings (bool): ignore warning messages
 
         Returns:
             DataFrame: data for each emissions dataset
         """
-        return Emissions().emissions(actor_id=actor_id, datasource_id=datasource_id)
+        return Emissions().emissions(actor_id=actor_id, datasource_id=datasource_id, ignore_warnings=ignore_warnings)
 
-    def emissions_datasets(self, actor_id: str = None) -> pd.DataFrame:
+    def emissions_datasets(self, actor_id: str = None, ignore_warnings: bool = False) -> pd.DataFrame:
         """retreive actor emissions datasets
 
         Args:
             actor_id (str): code for actor your want to retrieve
+            ignore_warnings (bool): ignore warning messages
 
         Returns:
             DataFrame: data of emission datasets
         """
-        return Emissions().datasets(actor_id=actor_id)
+        return Emissions().datasets(actor_id=actor_id, ignore_warnings=ignore_warnings)
 
-    def targets(self, actor_id: str = None) -> pd.DataFrame:
+    def targets(self, actor_id: str = None, ignore_warnings: bool = False) -> pd.DataFrame:
         """retreive actor targets
 
         Args:
             actor_id (str|List[str]): code for actor your want to retrieve
+            ignore_warnings (bool): ignore warning messages
 
         Returns:
             DataFrame: dataframe of targets
         """
-        return Targets().targets(actor_id=actor_id)
+        return Targets().targets(actor_id=actor_id, ignore_warnings=ignore_warnings)
 
-    def population(self, actor_id: str = None) -> pd.DataFrame:
+    def population(self, actor_id: str = None, ignore_warnings: bool = False) -> pd.DataFrame:
         """retreive actor population
 
         Args:
             actor_id (str|List[str]): code for actor your want to retrieve
+            ignore_warnings (bool): ignore warning messages
 
         Returns:
             DataFrame: dataframe of population
         """
-        return Population().population(actor_id=actor_id)
+        return Population().population(actor_id=actor_id, ignore_warnings=ignore_warnings)
 
-    def gdp(self, actor_id: str = None) -> pd.DataFrame:
+    def gdp(self, actor_id: str = None, ignore_warnings: bool = False) -> pd.DataFrame:
         """retreive actor GDP
 
         Args:
             actor_id (str|List[str]): code for actor your want to retrieve
+            ignore_warnings (bool): ignore warning messages
 
         Returns:
             DataFrame: dataframe of GDP
         """
-        return GDP().gdp(actor_id=actor_id)
+        return GDP().gdp(actor_id=actor_id, ignore_warnings=ignore_warnings)
 
     def parts(
         self, actor_id: str = None, part_type: str = None, *args, **kwargs

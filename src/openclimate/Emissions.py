@@ -35,17 +35,18 @@ class Emissions(Base):
         return df_out.reset_index(drop=True)
 
     def datasets(
-        self, actor_id: Union[str, List[str], Tuple[str]] = None
+        self, actor_id: Union[str, List[str], Tuple[str]] = None, ignore_warnings: bool = False
     ) -> pd.DataFrame:
         """retreive emissions datasets for an actor
 
         Args:
             actor_id (Union[str, List[str], Tuple[str]], optional): actor code
+            ignore_warnings (bool, optional): ignore warnings messages
 
         Returns:
             pd.DataFrame:
         """
-        overviews = ActorOverview().overview(actor_id=actor_id)
+        overviews = ActorOverview().overview(actor_id=actor_id, ignore_warnings=ignore_warnings)
         list_out = [
             {
                 "actor_id": overview.get("actor_id"),
@@ -67,6 +68,7 @@ class Emissions(Base):
         self,
         actor_id: Union[str, List[str], Tuple[str]] = None,
         datasource_id: str = None,
+        ignore_warnings: bool = False,
         *args,
         **kwargs,
     ) -> pd.DataFrame:
@@ -75,13 +77,14 @@ class Emissions(Base):
         Args:
             actor_id (Union[str, List[str], Tuple[str]], optional): actor code
             datasource_id (str, optional): emissions datasource. Defaults to None.
+            ignore_warnings (bool, optional): ignore warnings messages
 
         Returns:
             pd.DataFrame: _description_
         """
         try:
             actor_id = [actor_id] if isinstance(actor_id, str) else actor_id
-            overviews = ActorOverview().overview(actor_id=actor_id)
+            overviews = ActorOverview().overview(actor_id=actor_id, ignore_warnings=ignore_warnings)
         except Exception:
             print(f"Something went wrong, check that {actor_id} is an actor")
         else:

@@ -39,17 +39,19 @@ def async_func(func):
 
     return wrapper
 
-def filter_overviews(overviews: List[Dict], key: str) -> List[Dict]:
+def filter_overviews(overviews: List[Dict], key: str, ignore_warnings: bool = False) -> List[Dict]:
     """filter overviews if has data for key
 
     Args:
         overviews (List[Dict]): list of actor overviews
+        ignore_warnings (bool): ignore warning messages
 
     Returns:
         List[Dict]: filtered overviews
     """
     overviews = [d for d in overviews if d is not None]
     filtered_overviews = []
+    warnings.simplefilter('ignore') if ignore_warnings else warnings.simplefilter('default')
     for overview in overviews:
         if overview.get(key):
             filtered_overviews.append(overview)

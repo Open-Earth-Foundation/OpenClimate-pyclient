@@ -52,23 +52,24 @@ class Targets(Base):
         )
 
     def targets(
-        self, actor_id: Union[str, List[str], Tuple[str]] = None, *args, **kwargs
+        self, actor_id: Union[str, List[str], Tuple[str]] = None, ignore_warnings: bool = False, *args, **kwargs
     ) -> pd.DataFrame:
         """retreive actor targets
 
         Args:
             actor_id (Union[str, List[str], Tuple[str]], optional): actor code
+            ignore_warnings (bool): ignore warning messages
 
         Returns:
             pd.DataFrame:
         """
         try:
             actor_id = [actor_id] if isinstance(actor_id, str) else actor_id
-            overviews = ActorOverview().overview(actor_id=actor_id)
+            overviews = ActorOverview().overview(actor_id=actor_id, ignore_warnings=ignore_warnings)
         except Exception:
             print(f"Something went wrong, check that {actor_id} is an actor")
         else:
-            overviews = filter_overviews(overviews, 'targets')
+            overviews = filter_overviews(overviews, 'targets', ignore_warnings)
             overviews = [overview for overview in overviews if 'targets' in overview.keys()]
             df_list = [self._get_target(overview) for overview in overviews if overview]
             return pd.concat(df_list)

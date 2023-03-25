@@ -35,23 +35,24 @@ class Population(Base):
         return explode_dict_columns(df).loc[:, columns].reset_index(drop=True)
 
     def population(
-        self, actor_id: Union[str, List[str], Tuple[str]] = None, *args, **kwargs
+        self, actor_id: Union[str, List[str], Tuple[str]] = None, ignore_warnings: bool = False, *args, **kwargs
     ) -> pd.DataFrame:
         """retreive actor population
 
         Args:
             actor_id (Union[str, List[str], Tuple[str]], optional): actor code
+            ignore_warnings (bool): ignore warning messages
 
         Returns:
             pd.DataFrame:
         """
         try:
             actor_id = [actor_id] if isinstance(actor_id, str) else actor_id
-            overviews = ActorOverview().overview(actor_id=actor_id)
+            overviews = ActorOverview().overview(actor_id=actor_id, ignore_warnings=ignore_warnings)
         except Exception:
             print(f"Something went wrong, check that {actor_id} is an actor")
         else:
-            overviews = filter_overviews(overviews, 'population')
+            overviews = filter_overviews(overviews, 'population', ignore_warnings)
             df_list = [
                 self._get_population(overview) for overview in overviews if overview
             ]
