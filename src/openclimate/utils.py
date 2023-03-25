@@ -2,7 +2,7 @@ import asyncio
 from functools import wraps
 import pandas as pd
 from typing import List, Dict, Union, Tuple
-
+import warnings
 
 def explode_dict_columns(df: pd.DataFrame = None) -> pd.DataFrame:
     """expand rows with dictionaries into separate columns
@@ -38,3 +38,24 @@ def async_func(func):
         return await loop.run_in_executor(None, func, *args, **kwargs)
 
     return wrapper
+
+def filter_overviews(overviews: List[Dict], key: str) -> List[Dict]:
+    """filter overviews if has data for key
+
+    Args:
+        overviews (List[Dict]): list of actor overviews
+
+    Returns:
+        List[Dict]: filtered overviews
+    """
+    overviews = [d for d in overviews if d is not None]
+    filtered_overviews = []
+    for overview in overviews:
+        if overview.get(key):
+            filtered_overviews.append(overview)
+        else:
+            warnings.warn(
+                f"NoDataError: {overview.get('actor_id')} has no {key} data", category=UserWarning
+            )
+
+    return filtered_overviews
