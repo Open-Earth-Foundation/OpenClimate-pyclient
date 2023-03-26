@@ -44,6 +44,7 @@ Installation
    notebooks/emissions_and_emissions_per_capita
    notebooks/cumulative_emissions
    notebooks/great_britain_emissions
+   notebooks/canada_breakdown
 
 .. toctree::
    :maxdepth: 2
