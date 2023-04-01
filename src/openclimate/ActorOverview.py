@@ -2,7 +2,7 @@ import asyncio
 from dataclasses import dataclass
 import pandas as pd
 import requests
-from typing import List, Dict, Union, Tuple
+from typing import List, Union, Tuple, Optional
 import warnings
 
 from .utils import async_func
@@ -18,7 +18,7 @@ class ActorOverview(Base):
         object
     """
     @async_func
-    def _overview_single_actor(self, actor_id: str = None, ignore_warnings: bool = False) -> Dict:
+    def _overview_single_actor(self, actor_id: str, ignore_warnings: bool = False, *args, **kwargs):
         """retreive actor emissions
 
         Args:
@@ -41,7 +41,7 @@ class ActorOverview(Base):
             return None
         return data_list
 
-    async def _overview_coros(self, actor_id: str = None, ignore_warnings: bool = False) -> Dict:
+    async def _overview_coros(self, actor_id: Union[str, List[str], Tuple[str]], ignore_warnings: bool = False, *args, **kwargs):
         """overview coroutines
 
         Args:
@@ -53,15 +53,15 @@ class ActorOverview(Base):
         """
         actor_list = [actor_id] if isinstance(actor_id, str) else actor_id
         tasks = [
-            asyncio.create_task(self._overview_single_actor(actor, ignore_warnings))
+            asyncio.create_task(self._overview_single_actor(actor_id=actor, ignore_warnings=ignore_warnings))
             for actor in actor_list
         ]
         results = await asyncio.gather(*tasks)
         return results
 
     def overview(
-        self, actor_id: Union[str, List[str], Tuple[str]] = None, ignore_warnings: bool = False
-    ) -> List[Dict]:
+        self, actor_id: Union[str, List[str], Tuple[str]], ignore_warnings: bool = False
+    ):
         """Retretive actor overview
 
         Args:
@@ -74,7 +74,7 @@ class ActorOverview(Base):
         return asyncio.run(self._overview_coros(actor_id=actor_id, ignore_warnings=ignore_warnings))
 
     def parts(
-        self, actor_id: str = None, part_type: str = None, *args, **kwargs
+        self, actor_id: str, part_type: Optional[str] = None, *args, **kwargs
     ) -> pd.DataFrame:
         """Retreive actor parts (e.g. subnational, cities, ...)
 
@@ -118,7 +118,7 @@ class ActorOverview(Base):
 
     def country_codes(
         self,
-        like: str = None,
+        like: Optional[str] = None,
         case_sensitive: bool = False,
         regex: bool = True,
         *args,

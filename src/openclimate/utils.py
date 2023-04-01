@@ -1,8 +1,9 @@
 import asyncio
 from functools import wraps
 import pandas as pd
-from typing import List, Dict, Union, Tuple
+from typing import List, Dict, Any
 import warnings
+
 
 def explode_dict_columns(df: pd.DataFrame = None) -> pd.DataFrame:
     """expand rows with dictionaries into separate columns
@@ -33,13 +34,14 @@ def async_func(func):
     """
 
     @wraps(func)
-    async def wrapper(*args, **kwargs):
+    async def wrapper():
         loop = asyncio.get_event_loop()
-        return await loop.run_in_executor(None, func, *args, **kwargs)
+        return await loop.run_in_executor(None, func)
 
     return wrapper
 
-def filter_overviews(overviews: List[Dict], key: str, ignore_warnings: bool = False) -> List[Dict]:
+
+def filter_overviews(overviews: List[Dict[Any, Any]], key: str, ignore_warnings: bool = False) -> List[Dict[Any, Any]]:
     """filter overviews if has data for key
 
     Args:
@@ -59,5 +61,4 @@ def filter_overviews(overviews: List[Dict], key: str, ignore_warnings: bool = Fa
             warnings.warn(
                 f"NoDataError: {overview.get('actor_id')} has no {key} data", category=UserWarning
             )
-
     return filtered_overviews

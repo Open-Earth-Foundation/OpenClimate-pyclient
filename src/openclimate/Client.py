@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 import pandas as pd
-from typing import List, Dict, Union, Tuple
+from typing import Optional
 
 from .ActorOverview import ActorOverview
 from .Base import Base
@@ -37,7 +37,7 @@ class Client(Base):
         nest_asyncio.apply()
 
     def emissions(
-        self, actor_id: str = None, datasource_id: str = None, ignore_warnings: bool = False
+        self, actor_id: str, datasource_id: Optional[str] = None, ignore_warnings: bool = False
     ) -> pd.DataFrame:
         """retreive actor emissions
 
@@ -51,7 +51,7 @@ class Client(Base):
         """
         return Emissions().emissions(actor_id=actor_id, datasource_id=datasource_id, ignore_warnings=ignore_warnings)
 
-    def emissions_datasets(self, actor_id: str = None, ignore_warnings: bool = False) -> pd.DataFrame:
+    def emissions_datasets(self, actor_id: str, ignore_warnings: bool = False) -> pd.DataFrame:
         """retreive actor emissions datasets
 
         Args:
@@ -63,7 +63,7 @@ class Client(Base):
         """
         return Emissions().datasets(actor_id=actor_id, ignore_warnings=ignore_warnings)
 
-    def targets(self, actor_id: str = None, ignore_warnings: bool = False) -> pd.DataFrame:
+    def targets(self, actor_id: str, ignore_warnings: bool = False) -> pd.DataFrame:
         """retreive actor targets
 
         Args:
@@ -75,7 +75,7 @@ class Client(Base):
         """
         return Targets().targets(actor_id=actor_id, ignore_warnings=ignore_warnings)
 
-    def population(self, actor_id: str = None, ignore_warnings: bool = False) -> pd.DataFrame:
+    def population(self, actor_id: str, ignore_warnings: bool = False) -> pd.DataFrame:
         """retreive actor population
 
         Args:
@@ -87,7 +87,7 @@ class Client(Base):
         """
         return Population().population(actor_id=actor_id, ignore_warnings=ignore_warnings)
 
-    def gdp(self, actor_id: str = None, ignore_warnings: bool = False) -> pd.DataFrame:
+    def gdp(self, actor_id: str, ignore_warnings: bool = False) -> pd.DataFrame:
         """retreive actor GDP
 
         Args:
@@ -100,7 +100,7 @@ class Client(Base):
         return GDP().gdp(actor_id=actor_id, ignore_warnings=ignore_warnings)
 
     def parts(
-        self, actor_id: str = None, part_type: str = None, *args, **kwargs
+        self, actor_id: str, part_type: Optional[str] = None, *args, **kwargs
     ) -> pd.DataFrame:
         """retreive actor parts
 
@@ -117,11 +117,11 @@ class Client(Base):
 
     def search(
         self,
-        name: str = None,
-        identifier: str = None,
-        query: str = None,
-        language: str = None,
-        namespace: str = None,
+        name: Optional[str] = None,
+        identifier: Optional[str] = None,
+        query: Optional[str] = None,
+        language: Optional[str] = None,
+        namespace: Optional[str] = None,
         *args,
         **kwargs,
     ) -> pd.DataFrame:
@@ -143,13 +143,11 @@ class Client(Base):
             query=query,
             language=language,
             namespace=namespace,
-            *args,
-            **kwargs,
         )
 
     def country_codes(
         self,
-        like: str = None,
+        like: Optional[str] = None,
         case_sensitive: bool = False,
         regex: bool = True,
         *args,
@@ -168,7 +166,6 @@ class Client(Base):
         return (
             ActorOverview()
             .country_codes(
-                like=like, case_sensitive=case_sensitive, regex=regex, *args, **kwargs
-            )
+                like=like, case_sensitive=case_sensitive, regex=regex)
             .reset_index(drop=True)
         )

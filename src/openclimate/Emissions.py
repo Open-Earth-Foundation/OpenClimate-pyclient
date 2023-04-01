@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 import pandas as pd
-from typing import List, Dict, Union, Tuple
+from typing import List, Dict, Union, Tuple, Any, Optional
 
 from .ActorOverview import ActorOverview
 from .Base import Base
@@ -8,7 +8,7 @@ from .Base import Base
 
 @dataclass
 class Emissions(Base):
-    def _get_emissions(self, overview: Dict = None) -> pd.DataFrame:
+    def _get_emissions(self, overview: Dict[Any, Any]) -> pd.DataFrame:
         """retreive emissions from overview dictionary
 
         Args:
@@ -35,7 +35,11 @@ class Emissions(Base):
         return df_out.reset_index(drop=True)
 
     def datasets(
-        self, actor_id: Union[str, List[str], Tuple[str]] = None, ignore_warnings: bool = False
+        self,
+        actor_id: Union[str, List[str], Tuple[str]],
+        ignore_warnings: bool = False,
+        *args,
+        **kwargs,
     ) -> pd.DataFrame:
         """retreive emissions datasets for an actor
 
@@ -46,28 +50,35 @@ class Emissions(Base):
         Returns:
             pd.DataFrame:
         """
-        overviews = ActorOverview().overview(actor_id=actor_id, ignore_warnings=ignore_warnings)
-        list_out = [
-            {
-                "actor_id": overview.get("actor_id"),
-                "datasource_id": datasource,
-                "name": data.get("name"),
-                "publisher": data.get("publisher"),
-                "published": data.get("published"),
-                "URL": data.get("URL"),
-            }
-            for overview in overviews
-            if overview
-            for datasource, data in overview.get("emissions").items()
-        ]
-        if list_out:
-            return pd.DataFrame(list_out)
-        return None
+        try:
+            actor_id = [actor_id] if isinstance(actor_id, str) else actor_id
+            overviews = ActorOverview().overview(
+                actor_id=actor_id, ignore_warnings=ignore_warnings
+            )
+        except Exception:
+            print(f"Something went wrong, check that {actor_id} is an actor")
+        else:
+            list_out = [
+                {
+                    "actor_id": overview.get("actor_id"),
+                    "datasource_id": datasource,
+                    "name": data.get("name"),
+                    "publisher": data.get("publisher"),
+                    "published": data.get("published"),
+                    "URL": data.get("URL"),
+                }
+                for overview in overviews
+                if overview
+                for datasource, data in overview.get("emissions").items()
+            ]
+            if list_out:
+                return pd.DataFrame(list_out)
+            return None
 
     def emissions(
         self,
-        actor_id: Union[str, List[str], Tuple[str]] = None,
-        datasource_id: str = None,
+        actor_id: Union[str, List[str], Tuple[str]],
+        datasource_id: Optional[str] = None,
         ignore_warnings: bool = False,
         *args,
         **kwargs,
@@ -84,7 +95,9 @@ class Emissions(Base):
         """
         try:
             actor_id = [actor_id] if isinstance(actor_id, str) else actor_id
-            overviews = ActorOverview().overview(actor_id=actor_id, ignore_warnings=ignore_warnings)
+            overviews = ActorOverview().overview(
+                actor_id=actor_id, ignore_warnings=ignore_warnings
+            )
         except Exception:
             print(f"Something went wrong, check that {actor_id} is an actor")
         else:

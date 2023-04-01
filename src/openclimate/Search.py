@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 import pandas as pd
 import requests
-from typing import List, Dict, Union, Tuple
+from typing import Optional
 
 from .Base import Base
 
@@ -10,11 +10,11 @@ from .Base import Base
 class Search(Base):
     def _search_endpoint(
         self,
-        name: str = None,
-        identifier: str = None,
-        query: str = None,
-        language: str = None,
-        namespace: str = None,
+        name: Optional[str] = None,
+        identifier: Optional[str] = None,
+        query: Optional[str] = None,
+        language: Optional[str] = None,
+        namespace: Optional[str] = None,
         *args,
         **kwargs,
     ) -> str:
@@ -36,25 +36,25 @@ class Search(Base):
                 "Exactly one of 'query', 'identifier' or 'name' must be passed as input"
             )
         if query:
-            return f"/search/actor?q=" + query
+            return f"/search/actor?q={query}"
         elif identifier:
-            endpoint = f"/search/actor?identifier=" + identifier
+            endpoint = f"/search/actor?identifier={identifier}"
             if namespace:
-                endpoint += "&namespace=" + namespace
+                endpoint += f"&namespace={namespace}"
             return endpoint
         else:
-            endpoint = f"/search/actor?name=" + name
+            endpoint = f"/search/actor?name={name}"
             if language:
-                endpoint += "&language=" + language
+                endpoint += f"&language={language}"
             return endpoint
 
     def search(
         self,
-        name: str = None,
-        identifier: str = None,
-        query: str = None,
-        language: str = None,
-        namespace: str = None,
+        name: Optional[str] = None,
+        identifier: Optional[str] = None,
+        query: Optional[str] = None,
+        language: Optional[str] = None,
+        namespace: Optional[str] = None,
         *args,
         **kwargs,
     ) -> pd.DataFrame:

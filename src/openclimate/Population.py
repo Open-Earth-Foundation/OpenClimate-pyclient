@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 import pandas as pd
-from typing import List, Dict, Union, Tuple
+from typing import List, Dict, Union, Tuple, Any
 
 from .utils import explode_dict_columns
 from .utils import filter_overviews
@@ -11,7 +11,7 @@ from .Base import Base
 
 @dataclass
 class Population(Base):
-    def _get_population(self, overview: Dict = None) -> pd.DataFrame:
+    def _get_population(self, overview: Dict[Any, Any]) -> pd.DataFrame:
         """retreive population from overview dictionary
 
         Args:
@@ -35,7 +35,7 @@ class Population(Base):
         return explode_dict_columns(df).loc[:, columns].reset_index(drop=True)
 
     def population(
-        self, actor_id: Union[str, List[str], Tuple[str]] = None, ignore_warnings: bool = False, *args, **kwargs
+        self, actor_id: Union[str, List[str], Tuple[str]], ignore_warnings: bool = False, *args, **kwargs
     ) -> pd.DataFrame:
         """retreive actor population
 
