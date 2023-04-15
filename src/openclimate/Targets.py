@@ -23,7 +23,7 @@ class Targets(Base):
         data = overview["targets"]
 
         if data:
-            columns = [
+            columns_tmp = [
                 "actor_id",
                 "target_type",
                 "baseline_year",
@@ -46,6 +46,9 @@ class Targets(Base):
                 .sort_values(by=["target_year"])
                 .assign(actor_id=overview["actor_id"])
             )
+
+            columns = [col for col in columns_tmp if col in df.columns]
+
             return (
                 explode_dict_columns(df)
                 .loc[:, columns]
