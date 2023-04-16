@@ -7,11 +7,11 @@ OpenClimate Python Client Documentation
 ======================================================
 
 OpenClimate is a datastore for emissions data and target pledges.
-The OpenClimate Python Client is a Python 3.6+ provides a
+The OpenClimate Python Client is a Python 3.8+ package that provides a
 high-level interface to the
 `OpenClimate API <https://github.com/Open-Earth-Foundation/OpenClimate/blob/develop/api/API.md>`_.
 
-The goal of this package is to focus on the analysis by
+The goal of this package is to make it easier to focus on the analysis by
 abstracting away the details of making HTTP requests and handling responses.
 
 .. note::
@@ -45,6 +45,7 @@ Installation
    notebooks/cumulative_emissions
    notebooks/great_britain_emissions
    notebooks/canada_breakdown
+   notebooks/canada_target_gap
 
 .. toctree::
    :maxdepth: 2
