@@ -10,8 +10,7 @@ conda:
 
 python:
    install:
-      - method: setuptools
-        path: .
+   - requirements: requirements.txt
 
 submodules:
    include: all
